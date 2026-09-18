@@ -23,6 +23,13 @@ export default function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const isSubmitEnabled = name.trim().length > 0 && email.trim().length > 0;
 
+  const handleStartNewForm = () => {
+    setName("");
+    setEmail("");
+    setSendEmailCopy(false);
+    setIsSubmitted(false);
+  };
+
   if (!fontsLoaded) {
     return null;
   }
@@ -103,6 +110,16 @@ export default function App() {
         <View style={styles.overlay}>
           <View accessibilityRole="alert" style={styles.confirmationCard}>
             <Text style={styles.confirmationTitle}>Submitted!</Text>
+            <Pressable
+              accessibilityRole="button"
+              onPress={handleStartNewForm}
+              style={({ pressed }) => [
+                styles.startNewFormButton,
+                pressed && styles.startNewFormButtonPressed,
+              ]}
+            >
+              <Text style={styles.startNewFormButtonText}>Start a new form</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -210,6 +227,7 @@ const styles = StyleSheet.create({
     borderColor: "#CFCFCF",
     borderRadius: 16,
     borderWidth: 2,
+    gap: 40,
     maxWidth: 520,
     padding: 40,
     width: "100%",
@@ -220,5 +238,21 @@ const styles = StyleSheet.create({
     fontSize: 40,
     lineHeight: 48,
     textAlign: "center",
+  },
+  startNewFormButton: {
+    alignItems: "center",
+    backgroundColor: "#171717",
+    borderRadius: 8,
+    justifyContent: "center",
+    minHeight: 56,
+  },
+  startNewFormButtonPressed: {
+    opacity: 0.85,
+  },
+  startNewFormButtonText: {
+    color: "#FFFFFF",
+    fontFamily: "Inter_700Bold",
+    fontSize: 16,
+    lineHeight: 24,
   },
 });
