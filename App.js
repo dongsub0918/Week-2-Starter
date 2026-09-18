@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import {
   KeyboardAvoidingView,
+  Modal,
   Platform,
   Pressable,
   StyleSheet,
@@ -19,6 +20,7 @@ export default function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [sendEmailCopy, setSendEmailCopy] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const isSubmitEnabled = name.trim().length > 0 && email.trim().length > 0;
 
   if (!fontsLoaded) {
@@ -78,6 +80,7 @@ export default function App() {
                 accessibilityRole="button"
                 accessibilityState={{ disabled: !isSubmitEnabled }}
                 disabled={!isSubmitEnabled}
+                onPress={() => setIsSubmitted(true)}
                 style={({ pressed }) => [
                   styles.submitButton,
                   !isSubmitEnabled && styles.submitButtonDisabled,
@@ -91,6 +94,18 @@ export default function App() {
         </KeyboardAvoidingView>
         <StatusBar style="dark" />
       </SafeAreaView>
+      <Modal
+        animationType="fade"
+        onRequestClose={() => undefined}
+        transparent
+        visible={isSubmitted}
+      >
+        <View style={styles.overlay}>
+          <View accessibilityRole="alert" style={styles.confirmationCard}>
+            <Text style={styles.confirmationTitle}>Submitted!</Text>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaProvider>
   );
 }
@@ -182,5 +197,28 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     fontSize: 16,
     lineHeight: 24,
+  },
+  overlay: {
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    flex: 1,
+    justifyContent: "center",
+    padding: 24,
+  },
+  confirmationCard: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#CFCFCF",
+    borderRadius: 16,
+    borderWidth: 2,
+    maxWidth: 520,
+    padding: 40,
+    width: "100%",
+  },
+  confirmationTitle: {
+    color: "#171717",
+    fontFamily: "Inter_700Bold",
+    fontSize: 40,
+    lineHeight: 48,
+    textAlign: "center",
   },
 });
