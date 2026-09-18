@@ -68,7 +68,7 @@ export default function App() {
                 <Switch
                   onValueChange={setSendEmailCopy}
                   thumbColor="#FFFFFF"
-                  trackColor={{ false: "#CFCFCF", true: "#171717" }}
+                  trackColor={{ false: "#C9C9C9", true: "#24CEF9" }}
                   value={sendEmailCopy}
                 />
                 <Text style={styles.switchLabel}>Send a copy to my email</Text>
